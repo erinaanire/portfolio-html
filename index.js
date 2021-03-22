@@ -1,33 +1,88 @@
 /**
- * Function to create profile summary content
+ * Function to create About Me content
  */
 function toCreateList(list){
-   
-    const otherUl = document.createElement("ul");
-        for(let item of list){
-            const listElement = document.createElement('li');
-            otherUl.appendChild(listElement);
-            const listText = document.createTextNode(item);
-            listElement.appendChild(listText);
-        }
+   const otherUl = document.createElement("ul");
+    for(let item of list){
+        const listElement = document.createElement('li');
+        otherUl.appendChild(listElement);
+        const listText = document.createTextNode(item);
+        listElement.appendChild(listText);
+    }
     return otherUl;
 }
+
+/**
+ * Function to create skills content
+ */
+
+function toAddSkills(list){
+    const skillUl = document.createElement('ul');
+    for(let item of list){
+        const skilListElement = document.createElement('li');
+        skillUl.appendChild(skilListElement);
+        const skillListText = document.createTextNode(item.skill);
+        const skillSpan = document.createElement("span");
+        skillSpan.appendChild(skillListText);
+        skilListElement.appendChild(skillSpan);
+        skillSpan.setAttribute("class","skill-span");
+        for(let i = 1 ;i<=5; i++ ){
+            const createSpanOne = document.createElement("span");
+            createSpanOne.setAttribute("class","skills-dots");
+            if(i<=item.level){
+                createSpanOne.setAttribute("class","skills-dots level-color")
+            }
+            skilListElement.appendChild(createSpanOne);    
+        }
+        
+        
+    }
+    return skillUl;
+}
+
+
+/**
+ * Function to add Work Experience contents
+ */
+
+function toCreateWorkExpContent(workexplist){
+    const workExperienceUl = document.createElement("ul");
+    for(let items of workexplist){
+        const workExperienceLi = document.createElement("li");
+        workExperienceUl.appendChild(workExperienceLi);
+        const workExperienceNode = document.createTextNode(items);
+        workExperienceLi.appendChild(workExperienceNode);
+    }
+    return workExperienceUl;
+}
+
 
 /**
  * Function to create educational details content
  */
 
 function toCreateEduDetailsContent(listOfEduDetails){
-        const EducationalDetailsContentUl = document.createElement('ul');
-            for(let items of listOfEduDetails){
-                const newList = document.createElement('li');
-                EducationalDetailsContentUl.appendChild(newList);
-                const listNode = document.createTextNode(items);
-                newList.appendChild(listNode);
-            }
-        return EducationalDetailsContentUl;
+    const EducationalDetailsContentUl = document.createElement('ul');
+    for(let items of listOfEduDetails){
+        const newList = document.createElement('li');
+        EducationalDetailsContentUl.appendChild(newList);
+        const listNode = document.createTextNode(items);
+        newList.appendChild(listNode);
+    }
+    return EducationalDetailsContentUl;
 }
 
+function changeColor(ref){
+    ref.style.color = "#"+getRandomArbitrary(100000, 999999); 
+} 
+
+function mouseOut(ref) {
+    ref.style.color = "black";
+}
+
+function getRandomArbitrary(min, max) {
+    return Math.ceil(Math.random() * (max - min) + min);
+  }
 
 
 /**
@@ -39,44 +94,142 @@ console.log("headingTag",headingTag);
 /**
  * Function call to display heading name
  */
-const nameHeading = createHeading('Erina Rodrigues');
+const nameHeading = createHeading(['E','R','I','N','A',' D','M','E','L','L','O']);
 headingTag.appendChild(nameHeading);
+nameHeading.setAttribute('class', 'head-title');
 
-
+ 
 /**
- * Email line
+ * Div to create a circle for image
  */
-const emailLine = createPara('Email: xyz@gmail.com');
-emailLine.setAttribute("class", "democlass");
-headingTag.appendChild(emailLine);
+const circleDiv = document.createElement("div");
+//headingTag.appendChild(circleDiv);
+circleDiv.setAttribute('class','circle');
+circleDiv.setAttribute('id','profileselector');
+let counter = 6;
+
+setInterval(function(){
+    
+    if(counter === 0){
+        counter=6;
+    }
+
+    var cirImage = document.getElementById("profileselector");
+    console.log("data",cirImage);
+    cirImage.style.backgroundImage = `url('images/avatar${counter}.png')`;
+    counter--;
+    console.log("2",counter);
+    console.log("3");
+ }, 1000);
+
 
 /**
- * Mobile Line
+ * Contact Details
  */
-const mobileNo = createPara('Mob: -1234');
-headingTag.appendChild(mobileNo);
-const objectiveTitle = createHeading('Objective:');
-headingTag.appendChild(objectiveTitle);
+const contactDetail = createHeading('Contact Details:');
+headingTag.appendChild(contactDetail);
+contactDetail.setAttribute('onclick','clickFunction()');
+contactDetail.setAttribute('class','default underline-css');
+
+
+
 /**
- * Objective Data
+ * creating a new parent div for contact details content
  */
-const objectiveData = createPara('To secure a position in a reputed organization where my knowledge will be optimally utilized,further giving me an opportunity to learn and enhance my knowledge.')
-headingTag.appendChild(objectiveData);
+const contactDetailOutter = document.createElement('div');
+contactDetailOutter.setAttribute('id', 'contact-container');
 
 /**
- * Profile summary
+ * create a div container for conatct details and its contents
  */
-const profileSummaryData = createHeading('Profile Summary:')
-headingTag.appendChild(profileSummaryData);
+
+const contactDetailsContainer = document.createElement("div");
+contactDetailsContainer.appendChild(contactDetail);
+contactDetailsContainer.appendChild(contactDetailOutter);
+//headingTag.appendChild(contactDetailsContainer);
+
+/**
+ * create a parent div for circle and contact details
+ */
+const cirContactDiv = document.createElement("div");
+cirContactDiv.appendChild(circleDiv);
+cirContactDiv.appendChild(contactDetailsContainer);
+headingTag.appendChild(cirContactDiv);
+cirContactDiv.setAttribute('class','circle-contact');
+
+
 
 
 /**
- * Profile summary Content function call
+ * Skills
+ */
+const skillsKnown = createHeading('Skills:');
+headingTag.appendChild(skillsKnown);
+skillsKnown.setAttribute("class","underline-css");
+
+
+/**
+ * Skills Contents function call
+ */
+const skillsContents = [{
+    "skill":"JavaScript",
+    "level":2
+     },
+     {
+         "skill":"Html",
+         "level":3
+     },
+     {
+         "skill":"Css",
+         "level":2
+     },
+     {
+         "skill":"React",
+         "level":1
+     }];
+let skillsContentFunctionCall = toAddSkills(skillsContents);
+
+
+
+
+
+
+/**
+ * Function to display contact details onclicking on contact details
+ */
+function clickFunction(){
+    //contactDetail.innerHTML = "Hello World";
+    const emailLine = createPara('Email: xyz@gmail.com');
+    emailLine.setAttribute("class", "democlass");
+    const mobileNo = createPara('Mob: -1234');
+
+    const contactDetailOutter = document.getElementById('contact-container');
+    if(contactDetailOutter.innerHTML){
+        contactDetailOutter.innerHTML = "";
+    }else{
+        contactDetailOutter.appendChild(emailLine);
+        contactDetailOutter.appendChild(mobileNo);
+    }
+    // headingTag.appendChild(contactDetailOutter);
+}
+
+
+
+/**
+ * About Me
+ */
+const profileSummaryData = createHeading('About Me:')
+//headingTag.appendChild(profileSummaryData);
+profileSummaryData.setAttribute("class","underline-css");
+
+/**
+ * About Me Content function call
  */
 //headingTag.appendChild(proDetails1);
 let listData = ['Completed  M.E in Information Technology, from Thakur College of Engineering and Technology.','Excellent communication skills in written and verbal both.','Eager to learn new technologies and methodologies.','Shown flexibility, quick learner, proactive attitude'];
 const createList = toCreateList(listData);
-headingTag.appendChild(createList);
+
+
 
 
 
@@ -85,15 +238,51 @@ headingTag.appendChild(createList);
  */
 
 const EducationalTitle = createHeading('Educational Details:')
-headingTag.appendChild(EducationalTitle);
+EducationalTitle.setAttribute('class','underline-css');
 
 
 /**
  * Educational Details Content function call
  */
-const educationalDetailsArray = ['M.E(Information Technology), 2018 , CGPI 7.46','B.E (Computer Science), in 2015, St. Francis Institute of Technology, Mumbai with  66.13%','H.S.C , in 2011 , Maharashtra State Board, with 70.00%','S.S.C, in 2009, Maharashtra State Board, with 90.92%'];
+const educationalDetailsArray = ['M.E(Information Technology), 2018 , CGPI 7.46'];
 let educationalDetailsFunctionCall = toCreateEduDetailsContent(educationalDetailsArray);
-headingTag.appendChild(educationalDetailsFunctionCall);
+
+
+
+
+/**
+ * Work Experience :
+ */
+
+const experience = createHeading('Work Experience:')
+//headingTag.appendChild(experience);
+experience.setAttribute('class','underline-css');
+
+/**
+ * create a function call for work experience
+ */
+const workExperienceDetails = ['WebVictory,Mumbai-React Developer','Assistant Professor at St.Francis Institute of Technology,Mumbai'];
+const workExpFunctionCall = toCreateWorkExpContent(workExperienceDetails);
+
+
+
+
+
+ /**
+  * creating a div for Skills,about me and educational details and work experience
+  */
+const aboutMeEduDetailsWorkExpDiv = document.createElement("div");
+aboutMeEduDetailsWorkExpDiv.appendChild(skillsKnown);
+aboutMeEduDetailsWorkExpDiv.appendChild(skillsContentFunctionCall);
+aboutMeEduDetailsWorkExpDiv.appendChild(profileSummaryData);
+aboutMeEduDetailsWorkExpDiv.appendChild(createList);
+aboutMeEduDetailsWorkExpDiv.appendChild(EducationalTitle);
+aboutMeEduDetailsWorkExpDiv.appendChild(educationalDetailsFunctionCall);
+aboutMeEduDetailsWorkExpDiv.appendChild(experience);
+aboutMeEduDetailsWorkExpDiv.appendChild(workExpFunctionCall);
+headingTag.appendChild(aboutMeEduDetailsWorkExpDiv);
+
+aboutMeEduDetailsWorkExpDiv.setAttribute("class","aboutme-edudetailsworkexp");
 
 /**
  * Function to create element text
@@ -109,9 +298,17 @@ function createPara(text){
 /**
  * Function to create element heading
  */
-function createHeading(heading){
+function createHeading(nameList){
     const hTag = document.createElement("h4");
-    const hNode = document.createTextNode(heading);
-    hTag.appendChild(hNode);
+    for(let name of nameList){
+        const spanElement = document.createElement("span");
+        spanElement.setAttribute('onmouseover', 'changeColor(this)');
+        spanElement.setAttribute('onmouseout','mouseOut(this)');
+
+        const textNode = document.createTextNode(name);    
+        spanElement.appendChild(textNode);
+        hTag.appendChild(spanElement);
+    }
     return hTag;
 }
+
